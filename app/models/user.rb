@@ -17,5 +17,5 @@ class User < ApplicationRecord
   end
 
   validates :email, presence: true, uniqueness: true
-  validates :password, presence: true, length: { minimum: 6, maxmium: 10 }, on: :create
+  validates :password_digest, presence: true, length: { in: 6..20 }, :on => :create
 end
