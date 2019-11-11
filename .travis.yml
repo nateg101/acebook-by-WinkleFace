@@ -1,16 +1,16 @@
 language: ruby
 rvm:
-- 2.5.0
+  - 2.5.0
 cache: bundler
 services: postgresql
 before_install:
-- gem update --system
-- gem install bundler
+  - gem update --system
+  - gem install bundler
 script:
-- bundle exec rake db:create
-- bundle exec rake db:migrate
-- bundle exec rubocop
-- bundle exec rspec spec
+  - bundle exec rake db:create
+  - bundle exec rake db:migrate
+  - bundle exec rubocop
+  - bundle exec rspec spec
 deploy:
   provider: heroku
   app: acebook-winkleface
@@ -18,3 +18,4 @@ deploy:
     repo: nateg101/acebook-by-WinkleFace
   api_key:
     secure: 1qyv4W4Yx+JDGQ39OdaSZBjj9Y97x6x3j+AIBqHcqbbAFecUGW20ENCva0EgWJllCsbiXC4c4e+RHJQyzMxHdpvSwPNOmad66EFbA0vL6IFqadCJa+S5tOYjgn2ck/AC/LAm5eWYMmeeJqMLkql3wgaIycGk39lmz7MRZDEd6hdo74MM5oUe9xQGZGZYVd1E/Qi5q+5hyo++RRDr/8qsahZmS3e9lM+KbBMDGTZNOVMHstEbuxITgGKfRST5X2nG7qKhmnuL8bhpzyel6duqJrP0/cgYOF7fArLOEHwy5drfdgF0i1WjFNb10fC1/oExGtbRfEZSBizKoICFf3zpQUaObanPR7Hlrp+Krv+AZkh5MVLR6jMZZbILbNsdVeXM0SEmspJTjaYa9W8AOxL6bqh/5xDdmxj7jvnzUQTthej9uUBBjjWfo02W6VVvk4sGh7Sxasm/sFrDtJmzAGhCx9CpXR/jxEF8Ev3uaton+gTvGTkWHqJQ5IwIfSJMxmrrpoGkwVtFhObqCNLIEg7Df8xV6FZWfckzga7ZKBw5RFmWK0fWLtAb92LUOZArtnXQ1StMlk0Mmd+1DsPgujDv/ti2c6csx+yv6yeykSRcGRgEobJSwI9h3u0HZWr3xYr/mDL/2NPerTKJx0zPVg9u41V7uAxLJtu/341Aay1z7/s=
+  skip_cleanup: true
