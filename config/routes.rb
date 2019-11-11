@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
 
   root 'home#index'
+  get '/user_not_found', to: 'errors#user_not_found', as: 'user_not_found'
   # devise_for :users
 
   devise_scope :user do

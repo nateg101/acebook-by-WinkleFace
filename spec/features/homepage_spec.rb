@@ -8,6 +8,7 @@ RSpec.feature 'Homepage' do
 
   scenario 'authenticate user is redirect to posts url' do
     log_in_test_user
+    id = User.find_by(email: 'test@example.com').id
     visit '/'
     expect(current_path).to eq "/mrtest"
   end
