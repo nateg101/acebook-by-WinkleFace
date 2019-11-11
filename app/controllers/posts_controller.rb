@@ -10,7 +10,12 @@ class PostsController < ApplicationController
 
   def index
     @@wall_id = params[:id]
-    @posts = Post.where(wall_id: params[:id]).reverse
+    begin
+      user = User.find(params[:id])
+      @posts = Post.where(wall_id: params[:id]).reverse
+    rescue
+      redirect_to '/404'
+    end
   end
 
   def edit

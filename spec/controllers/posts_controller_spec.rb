@@ -13,6 +13,18 @@ RSpec.describe PostsController, type: :controller do
     end
   end
 
+  describe "GET /:id" do
+    it "responds with 200" do
+      get :index, params: {id: @user.id}
+      expect(response).to have_http_status(200)
+    end
+
+    it "responds with 302" do
+      get :index, params: {id: 0}
+      expect(response).to have_http_status(302)
+    end
+  end
+
   # describe "POST /" do
   #   it "responds with 200" do
   #     post :create, params: { post: { message: "Hello, world!" } }
@@ -25,12 +37,12 @@ RSpec.describe PostsController, type: :controller do
   #   end
   # end
 
-  describe "GET /" do
-    it "responds with 200" do
-      get :index
-      expect(response).to have_http_status(200)
-    end
-  end
+  # describe "GET /" do
+  #   it "responds with 200" do
+  #     get :index, params: {id: @user.id}
+  #     expect(response).to have_http_status(200)
+  #   end
+  # end
 
   describe 'GET :id/edit' do
     it 'goes to the edit page' do
