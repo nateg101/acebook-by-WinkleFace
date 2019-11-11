@@ -9,9 +9,9 @@ class PostsController < ApplicationController
   end
 
   def index
-    @@wall_id = params[:id]
     begin
-      user = User.find(params[:id])
+      @@wall_id = find_id(params[:id])
+      user = User.find(@@wall_id)
       @posts = Post.where(wall_id: user.id).reverse
     rescue StandardError => e
       p e
@@ -46,6 +46,17 @@ class PostsController < ApplicationController
 
   def edit_params
     params.require(:post).permit(:message)
+  end
+
+  def find_id(username)
+    return username if check_is_username(username)
+
+    return User.where(username: username).first.id
+  end
+
+  def check_is_username(username)
+    username.scan(/\D/).empty?
+  # truthy if string contains only digits or if it is an empty string
   end
 
 end

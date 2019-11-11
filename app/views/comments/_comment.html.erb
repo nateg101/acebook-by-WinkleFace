@@ -1,7 +1,7 @@
 <div class='comment'>
   <p class="comment-body">
     <%= comment.message %>
-    <p><small><strong><a href="/users/<%= comment.user.id %>"><%= comment.user.email %></a></strong> replied</small></br>
+    <p><small><strong><a href="/<%= comment.user.username %>"><%= comment.user.username %></a></strong> replied</small></br>
     <small><%= comment.created_at.to_s(:long_ordinal) %></small></p>
     <% if comment.user_id == current_user.id %>
       <%= form_for([post, comment], :html => { :method => :delete }) do |f| %>

@@ -7,6 +7,7 @@ RSpec.feature "Timeline", type: :feature do
     submit_post("Hello, world!")
     expect(current_path).to eq "/#{user.id}"
     expect(page).to have_content("Hello, world!")
+    expect(page).to have_content("#{user.username}")
   end
 end
 

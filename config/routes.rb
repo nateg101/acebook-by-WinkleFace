@@ -19,4 +19,6 @@ Rails.application.routes.draw do
   post '/posts/:post_id/unlike', to: 'likes#downvote', as: 'unlike_post'
   post '/posts/:post_id/comment/:comment_id/like', to: 'likes#upvote', as: 'like_post_comment'
   post '/posts/:post_id/comment/:comment_id/unlike', to: 'likes#downvote', as: 'unlike_post_comment'
+
+  # get '/:username' => 'posts#index', :as => 'vanity_url'
 end
