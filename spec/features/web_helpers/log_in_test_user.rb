@@ -1,6 +1,7 @@
 def log_in_test_user
   user = User.new
   user.email = 'test@example.com'
+  user.username = 'mrtest'
   user.password = 'password'
   user.password_confirmation = 'password'
   user.save!
@@ -13,6 +14,7 @@ end
 def log_in_test_user_2
   user = User.new
   user.email = 'test2@example.com'
+  user.username = 'mrtest2'
   user.password = 'password'
   user.password_confirmation = 'password'
   user.save!
