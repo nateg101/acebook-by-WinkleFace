@@ -60,6 +60,18 @@ Metrics/BlockLength:
     - 'spec/**/*'
     - 'test/**/*'
 
+Metrics/MethodLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'
+  Max: 15
+
+Metrics/AbcSize:
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'
+  Max: 16
+
 # Code Style
 # ==========
 #
