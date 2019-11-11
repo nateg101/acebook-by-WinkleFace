@@ -10,7 +10,13 @@ class PostsController < ApplicationController
 
   def index
     @@wall_id = params[:id]
-    @posts = Post.where(wall_id: params[:id]).reverse
+    begin
+      user = User.find(params[:id])
+      @posts = Post.where(wall_id: user.id).reverse
+    rescue StandardError => e
+      p e
+      redirect_to '/user_not_found'
+    end
   end
 
   def edit
