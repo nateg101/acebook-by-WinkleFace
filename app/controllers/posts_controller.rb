@@ -12,9 +12,10 @@ class PostsController < ApplicationController
     @@wall_id = params[:id]
     begin
       user = User.find(params[:id])
-      @posts = Post.where(wall_id: params[:id]).reverse
-    rescue
-      redirect_to '/404'
+      @posts = Post.where(wall_id: user.id).reverse
+    rescue StandardError => e
+      p e
+      redirect_to '/user_not_found'
     end
   end
 

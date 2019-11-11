@@ -15,12 +15,12 @@ RSpec.describe PostsController, type: :controller do
 
   describe "GET /:id" do
     it "responds with 200" do
-      get :index, params: {id: @user.id}
+      get :index, params: { id: @user.id }
       expect(response).to have_http_status(200)
     end
 
     it "responds with 302" do
-      get :index, params: {id: 0}
+      get :index, params: { id: 0 }
       expect(response).to have_http_status(302)
     end
   end
