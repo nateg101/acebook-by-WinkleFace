@@ -9,6 +9,6 @@ RSpec.feature 'Homepage' do
   scenario 'authenticate user is redirect to posts url' do
     log_in_test_user
     visit '/'
-    expect(current_path).to eq '/posts'
+    expect(current_path).to eq "/mrtest"
   end
 end

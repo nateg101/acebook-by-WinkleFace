@@ -3,7 +3,7 @@ class HomeController < ApplicationController
 
   def index
     if current_user
-      redirect_to :posts
+      redirect_to "/#{current_user.username}"
     else
       render 'devise/registrations/new'
     end
