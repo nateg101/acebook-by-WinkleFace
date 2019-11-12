@@ -9,8 +9,11 @@
       <% end %>
     <% end %>
 
-    <%= link_to edit_post_comment_path(post, comment) do %>
-      Edit comment
-    <% end %>
-  <%= render partial: 'likes/form', locals: { likeable: comment } %>
+<% if comment.created_at > Time.now - 600 && comment.user_id == current_user.id%>
+  <%= link_to edit_post_comment_path(post, comment) do %>
+  Edit comment
+<% end %>
+<% end %>
+<%= render partial: 'likes/form', locals: { likeable: comment } %>
+</p>
 </div>
