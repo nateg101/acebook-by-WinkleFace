@@ -5,7 +5,7 @@ RSpec.feature 'Log in' do
     log_in_test_user
     user = User.first
     p user
-    expect(page).to have_content 'Logged in as test@example.com'
+    expect(page).to have_content 'Logged in as mrtest'
     expect(current_path).to eq("/#{user.id}")
   end
 end
