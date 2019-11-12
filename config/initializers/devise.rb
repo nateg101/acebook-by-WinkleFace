@@ -70,7 +70,7 @@ Devise.setup do |config|
   # given strategies, for example, `config.http_authenticatable = [:database]` will
   # enable it only for database authentication. The supported strategies are:
   # :database      = Support basic authentication with authentication key + password
-  # config.http_authenticatable = false
+  config.http_authenticatable = true
 
   # If 401 status code should be returned for AJAX requests. True by default.
   # config.http_authenticatable_on_xhr = true
@@ -88,7 +88,7 @@ Devise.setup do |config|
   # Notice that if you are skipping storage for all authentication paths, you
   # may want to disable generating routes to Devise's sessions controller by
   # passing skip: :sessions to `devise_for` in your config/routes.rb
-  config.skip_session_storage = [:http_auth]
+  config.skip_session_storage = [:http_auth, :token_auth]
 
   # By default, Devise cleans up the CSRF token on authentication to
   # avoid CSRF token fixation attacks. This means that, when using AJAX
@@ -302,4 +302,23 @@ Devise.setup do |config|
   # config.sign_in_after_change_password = true
 
   config.omniauth :github, ENV["GITHUB_DEVISE_CLIENT_ID"], ENV["GITHUB_DEVISE_SECRET"], scope: 'user:email'
+end
+
+Devise::TokenAuthenticatable.setup do |config|
+  # enables the expiration of a token after a specified amount of time,
+  # requires an additional field on the model: `authentication_token_created_at`
+  # defaults to nil
+  config.token_expires_in = 1.day
+
+  # set the authentication key name used by this module,
+  # defaults to :auth_token
+  config.token_authentication_key = :other_key_name
+
+  # enable reset of the authentication token before the model is saved,
+  # defaults to false
+  config.should_reset_authentication_token = true
+
+  # enables the setting of the authentication token - if not already - before the model is saved,
+  # defaults to false
+  config.should_ensure_authentication_token = true
 end
