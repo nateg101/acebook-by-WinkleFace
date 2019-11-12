@@ -1,7 +1,7 @@
 <div class='comment'>
   <p class="comment-body">
-    <%= comment.message %>
-    <p><small><strong><a href="/<%= comment.user.username %>"><%= comment.user.username %></a></strong> replied</small></br>
+    <%= simple_format comment.message %>
+    <p><small><strong><a href="/<%= comment.user.username %>"><%= comment.user.username %></a></strong> replied</small>
     <small><%= comment.created_at.to_s(:long_ordinal) %></small></p>
     <% if comment.user_id == current_user.id %>
       <%= form_for([post, comment], :html => { :method => :delete }) do |f| %>
@@ -13,5 +13,4 @@
       Edit comment
     <% end %>
   <%= render partial: 'likes/form', locals: { likeable: comment } %>
-  </p>
 </div>

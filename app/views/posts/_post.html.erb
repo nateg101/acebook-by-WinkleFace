@@ -1,5 +1,5 @@
-<div  class='post'><%= simple_format post.message %>
-  <p><small>posted by <strong><a href="/<%= post.user.id %>"><%= post.user.username %></a></strong></small></br>
+<div class='post'><%= simple_format post.message %>
+  <p><small>posted by <strong><a href="/<%= post.user.id %>"><%= post.user.username %></a></strong></small>
    <small><%= post.created_at.to_s(:long_ordinal) %></small></p>
     <% if post.user_id == current_user.id %>
       <%= form_for(post, :html => { :method => :delete }) do |f| %>
@@ -24,7 +24,7 @@
   </div>
 
   <%= form_for [post, Comment.new] do |form| %>
-    <%= form.text_field :message %>
+    <%= form.text_area :message %>
 
     <%= form.submit "Add comment" %>
   <% end %>
