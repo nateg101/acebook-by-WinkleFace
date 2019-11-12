@@ -5,4 +5,7 @@ class Api::V1::PostsController < ApplicationController
   def show
     render json: Post.all
   end
+
+  def create
+  end
 end

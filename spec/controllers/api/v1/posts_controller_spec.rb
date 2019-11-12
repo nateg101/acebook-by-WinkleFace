@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::PostsController, type: :controller do
 
-  describe 'GET /api/v1/posts' do
+  describe 'GET #show' do
     it 'returns 200' do
       get :show
       puts "Request:"
@@ -17,6 +17,13 @@ RSpec.describe Api::V1::PostsController, type: :controller do
       post = Post.create(message: "Hello world", user_id: user.id)
       get :show
       expect(response.body).to eq(Post.all.to_json)
+    end
+  end
+
+  describe 'POST #create' do
+    it 'creates a post' do
+      get :create
+      expect(response).to have_http_status(:success)
     end
   end
 
