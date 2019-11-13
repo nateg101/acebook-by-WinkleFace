@@ -5,6 +5,13 @@ class Api::V1::CommentsController < ApplicationController
     render json: { success: {} }, status: 201
   end
 
+  def update
+    comment = Comment.find(params[:id])
+    comment.message = comment_params[:message]
+    comment.save!
+    render json: { success: {} }, status: 200
+  end
+
   private
 
   def comment_params
