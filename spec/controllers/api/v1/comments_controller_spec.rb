@@ -37,15 +37,17 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
   end
 
   describe 'PATCH #update' do
+    before :each do
+      @comment = Comment.create(post_id: @post.id, user_id: @user.id, message: "A comment")
+    end
     it 'responds 200' do
-      comment = Comment.create(post_id: @post.id, user_id: @user.id, message: "A comment")
       
       request.headers.merge(@headers)
       patch :update, params: {
         comment: {
           message: 'A new comment'
         },
-        id: comment.id,
+        id: @comment.id,
         :post_id => @post.id
       }
 
@@ -53,23 +55,19 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
     end
 
     it 'updates the comment' do
-      comment = Comment.create(post_id: @post.id, user_id: @user.id, message: "A comment")
-      
       request.headers.merge(@headers)
       patch :update, params: {
         comment: {
           message: 'A new comment'
         },
-        id: comment.id,
+        id: @comment.id,
         :post_id => @post.id
       }
 
-      expect(Comment.find(comment.id).message).to eq 'A new comment'
+      expect(Comment.find(@comment.id).message).to eq 'A new comment'
     end
 
     it 'responds unauthorised unless user is comment owner' do
-      comment = Comment.create(post_id: @post.id, user_id: @user.id, message: "A comment")
-      
       user = User.create(username: 'new_user', email: 'new@user.com', password: 'password')
       key = AuthenticateUserCommand.call(user.email, user.password).result
       headers = { 
@@ -81,12 +79,28 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
         comment: {
           message: 'A new comment'
         },
-        id: comment.id,
+        id: @comment.id,
         :post_id => @post.id
       }
 
       expect(response).to have_http_status(:unauthorized)
-      expect(Comment.find(comment.id).message).to eq 'A comment'
+      expect(Comment.find(@comment.id).message).to eq 'A comment'
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before :each do
+      @comment = Comment.create(post_id: @post.id, user_id: @user.id, message: "A comment")
+    end
+    it 'returns 200' do
+      request.headers.merge(@headers)
+
+      delete :destroy, params: {
+        id: @comment.id,
+        post_id: @post.id
+      }
+
+      expect(response).to have_http_status(200)
     end
   end
 end

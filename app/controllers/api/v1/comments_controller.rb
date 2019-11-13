@@ -16,6 +16,10 @@ class Api::V1::CommentsController < ApplicationController
     end
   end
 
+  def destroy
+    render json: { success: {} }, status: 200
+  end
+
   private
 
   def comment_params
