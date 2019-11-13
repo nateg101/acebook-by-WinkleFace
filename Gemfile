@@ -25,13 +25,14 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-gem 'devise'
-gem 'devise-token_authenticatable', '~> 1.1.0'
+# # gem 'devise'
+# # gem 'devise-token_authenticatable', '~> 1.1.0'
+# gem 'jwt'
 gem 'font-awesome-rails'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-gem 'omniauth', '~> 1.9.0'
-gem 'omniauth-github', github: 'intridea/omniauth-github'
+# gem 'omniauth', '~> 1.9.0'
+# gem 'omniauth-github', github: 'intridea/omniauth-github'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
