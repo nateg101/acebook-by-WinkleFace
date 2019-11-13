@@ -2,9 +2,12 @@ class Api::V1::UsersController < ApplicationController
   skip_before_action :authenticate_user!, :only => [:create]
 
   def create
-    puts user_params
-    User.create(user_params)
-    render json: { success: {} }
+    begin
+      User.create!(user_params)
+      render json: { success: {} }
+    rescue StandardError => e
+      render json: { failure: { message: e.message } }, status: 409
+    end
   end
 
   private
