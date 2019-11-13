@@ -22,7 +22,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
   describe 'POST #create' do
     before :each do
-      @user = User.create!(username: 'username', email: 'test@rspec.com', password: 'password')
+      @user = User.create(username: 'username', email: 'test@rspec.com', password: 'password')
       @key = AuthenticateUserCommand.call('test@rspec.com', 'password').result
       @my_headers = { 
         "ACCEPT": "application/json",
@@ -56,6 +56,13 @@ RSpec.describe Api::V1::PostsController, type: :controller do
       }
       expect(Post.find_by(message: 'A Post')).to be_a Post
     end
+  end
+
+  describe 'PATCH #update' do
+    it 'responds unauthorized' do
+      post :update
+      expect(response).to have_http_status(:unauthorized)
+    end    
   end
 
 end

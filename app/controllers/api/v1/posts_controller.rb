@@ -11,6 +11,9 @@ class Api::V1::PostsController < ApplicationController
     render json: { success: {} }
   end
 
+  def update
+  end
+
   private
 
   def post_params
