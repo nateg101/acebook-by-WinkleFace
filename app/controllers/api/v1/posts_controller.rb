@@ -13,7 +13,7 @@ class Api::V1::PostsController < ApplicationController
 
   def update
     post = Post.find_by(update_post_params[:id])
-    if current_user === post.user
+    if user_is_owner?(post)
       post.message = update_post_params[:message]
       post.save!
       render json: { success: {} }, status: 200
@@ -24,7 +24,7 @@ class Api::V1::PostsController < ApplicationController
 
   def destroy
     post = Post.find(params[:id])
-    if current_user === post.user
+    if user_is_owner?(post)
       post.destroy!
       render json: { success: {} }, status: 200
     else
@@ -40,5 +40,9 @@ class Api::V1::PostsController < ApplicationController
 
   def update_post_params
     params.require(:post).permit(:message, :id).merge(user_id: current_user.id)
+  end
+  
+  def user_is_owner?(post)
+    post.user == current_user
   end
 end
