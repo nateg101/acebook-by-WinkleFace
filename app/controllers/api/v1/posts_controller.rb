@@ -7,5 +7,13 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def create
+    Post.create(post_params)
+    render json: { success: {} }
+  end
+
+  private
+
+  def post_params
+    params.require(:post).permit(:message, :wall_id).merge(user_id: current_user.id)
   end
 end

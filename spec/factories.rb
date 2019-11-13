@@ -5,15 +5,14 @@ FactoryBot.define do
 
   factory :user do
     email { 'person@person.com' }
+    username { 'person' }
     password { 'password' }
-    id { 1 }
   end
 
-  # factory :post do
-  #   message { "Hello, world!" }
-  #   id { 1 }
-  #   user_id { 1 }
-  # end
+  factory :post do
+    message { "Hello, world!" }
+    user_id { User.all.first.id }
+  end
 
   # factory :comment do
   #   id { 1 }
