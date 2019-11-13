@@ -19,6 +19,9 @@ class Api::V1::PostsController < ApplicationController
     render json: { success: {} }, status: 200
   end
 
+  def destroy
+  end
+
   private
 
   def create_post_params

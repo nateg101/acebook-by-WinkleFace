@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::PostsController, type: :controller do
+  before :each do
+    @user = User.create(username: 'username', email: 'test@rspec.com', password: 'password')
+    @key = AuthenticateUserCommand.call('test@rspec.com', 'password').result
+    @my_headers = { 
+      "ACCEPT": "application/json",
+      "Authorisation": @key
+    }
+    @post = Post.create(message: 'hello', user_id: @user.id, wall_id: @user.id)
+  end
 
   describe 'GET #show' do
     it 'returns 200' do
@@ -17,14 +26,6 @@ RSpec.describe Api::V1::PostsController, type: :controller do
   end
 
   describe 'POST #create' do
-    before :each do
-      @user = User.create(username: 'username', email: 'test@rspec.com', password: 'password')
-      @key = AuthenticateUserCommand.call('test@rspec.com', 'password').result
-      @my_headers = { 
-        "ACCEPT": "application/json",
-        "Authorisation": @key
-      }
-    end
     it 'responds unauthorized' do
       post :create
       expect(response).to have_http_status(:unauthorized)
@@ -55,16 +56,6 @@ RSpec.describe Api::V1::PostsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    before :each do
-      @user = User.create(username: 'username', email: 'test@rspec.com', password: 'password')
-      @key = AuthenticateUserCommand.call('test@rspec.com', 'password').result
-      @post = Post.create(message: 'hello', user_id: @user.id, wall_id: @user.id)
-      @my_headers = { 
-        "ACCEPT": "application/json",
-        "Authorisation": @key
-      }
-    end
-
     it 'responds unauthorized' do
       patch :update, params: { id: @post.id }
       expect(response).to have_http_status(:unauthorized)
@@ -93,7 +84,12 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
       expect(Post.find(@post.id).message).to eq "A Post"
     end
-
   end
 
+  describe 'DELETE #destroy' do
+    it 'responds unauthorized' do
+      delete :destroy, params: { id: @post.id }
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
 end
