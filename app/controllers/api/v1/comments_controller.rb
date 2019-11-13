@@ -7,9 +7,13 @@ class Api::V1::CommentsController < ApplicationController
 
   def update
     comment = Comment.find(params[:id])
-    comment.message = comment_params[:message]
-    comment.save!
-    render json: { success: {} }, status: 200
+    if comment.user == current_user
+      comment.message = comment_params[:message]
+      comment.save!
+      render json: { success: {} }, status: 200
+    else
+      raise NotAuthorisedException
+    end
   end
 
   private
