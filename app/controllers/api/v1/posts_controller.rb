@@ -24,7 +24,7 @@ class Api::V1::PostsController < ApplicationController
       post.destroy!
       render json: { success: {} }, status: 200
     else
-      render json: { error: 'Not Authorised' }, status: :unauthorized
+      raise NotAuthorisedException
     end
   end
 
