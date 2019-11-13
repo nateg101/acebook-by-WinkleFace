@@ -12,8 +12,6 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
   end
   describe 'POST #create' do
     it 'responds 201' do
-
-
       request.headers.merge(@headers)
       post :create, params: {
         comment: {
@@ -23,6 +21,18 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
       }
 
       expect(response).to have_http_status(201)
+    end
+
+    it 'creates a comment' do
+      request.headers.merge(@headers)
+      post :create, params: {
+        comment: {
+          message: 'A comment'
+        },
+        :post_id => @post.id
+      }
+
+      expect(@post.comments.length).to eq 1
     end
   end
 end
