@@ -17,6 +17,8 @@ class Api::V1::CommentsController < ApplicationController
   end
 
   def destroy
+    comment = Comment.find(params[:id])
+    comment.destroy!
     render json: { success: {} }, status: 200
   end
 

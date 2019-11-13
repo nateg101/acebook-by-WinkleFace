@@ -102,5 +102,16 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
 
       expect(response).to have_http_status(200)
     end
+
+    it 'destroys the comment' do
+      request.headers.merge(@headers)
+
+      delete :destroy, params: {
+        id: @comment.id,
+        post_id: @post.id
+      }
+
+      expect(Comment.find_by(id: @comment.id)).to eq nil
+    end
   end
 end
