@@ -4,18 +4,14 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
   describe 'GET #show' do
     it 'returns 200' do
-      get :show
-      puts "Request:"
-      puts request.url
-      puts response.headers
-      puts response.redirect_url
+      get :index
       expect(response).to have_http_status(200)
     end
 
     it 'returns all posts in json format' do
       user = FactoryBot.create(:user)
       post = Post.create(message: "Hello world", user_id: user.id)
-      get :show
+      get :index
       expect(response.body).to eq(Post.all.to_json)
     end
   end
@@ -34,7 +30,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
       expect(response).to have_http_status(:unauthorized)
     end
 
-    it 'responds 200' do
+    it 'responds 201' do
       request.headers.merge!(@my_headers)
       post :create, params: {
         post: {
@@ -43,7 +39,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
         }
       }
 
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(201)
     end
 
     it 'creates a post' do
@@ -62,7 +58,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     before :each do
       @user = User.create(username: 'username', email: 'test@rspec.com', password: 'password')
       @key = AuthenticateUserCommand.call('test@rspec.com', 'password').result
-      Post.create(message: 'hello', user_id: @user.id, wall_id: @user.id)
+      @post = Post.create(message: 'hello', user_id: @user.id, wall_id: @user.id)
       @my_headers = { 
         "ACCEPT": "application/json",
         "Authorisation": @key
@@ -70,19 +66,32 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
 
     it 'responds unauthorized' do
-      patch :update
+      patch :update, params: { id: @post.id }
       expect(response).to have_http_status(:unauthorized)
     end
 
     it 'responds 200' do
       request.headers.merge!(@my_headers)
-      patch :create, params: {
+      patch :update, params: {
         post: {
           message: 'A Post',
-        }
+        },
+        id: @post.id
       }
 
       expect(response).to have_http_status(200)
+    end
+
+    it 'updates a post' do
+      request.headers.merge!(@my_headers)
+      patch :update , params: {
+        post: {
+          message: 'A Post',
+        },
+        id: @post.id
+      }
+
+      expect(Post.find(@post.id).message).to eq "A Post"
     end
 
   end
