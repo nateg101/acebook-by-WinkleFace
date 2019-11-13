@@ -91,5 +91,14 @@ RSpec.describe Api::V1::PostsController, type: :controller do
       delete :destroy, params: { id: @post.id }
       expect(response).to have_http_status(:unauthorized)
     end
+
+    it 'responds 200' do
+      request.headers.merge!(@my_headers)
+      delete :destroy, params: {
+        id: @post.id
+      }
+
+      expect(response).to have_http_status(200)
+    end
   end
 end

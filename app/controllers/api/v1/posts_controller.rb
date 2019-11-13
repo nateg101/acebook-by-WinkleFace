@@ -15,11 +15,11 @@ class Api::V1::PostsController < ApplicationController
     post = Post.find_by(update_post_params[:id])
     post.message = update_post_params[:message]
     post.save!
-    puts Post.find_by(update_post_params[:id]).message
     render json: { success: {} }, status: 200
   end
 
   def destroy
+    render json: { success: {} }, status: 200
   end
 
   private
