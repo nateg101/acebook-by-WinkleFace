@@ -113,5 +113,22 @@ RSpec.describe Api::V1::CommentsController, type: :controller do
 
       expect(Comment.find_by(id: @comment.id)).to eq nil
     end
+
+    it 'responds unauthorized unless user owns comment' do
+      user = User.create(username: 'new_user', email: 'new@user.com', password: 'password')
+      key = AuthenticateUserCommand.call(user.email, user.password).result
+      headers = { 
+        "ACCEPT": "application/json",
+        "Authorisation": key
+      }
+      request.headers.merge(headers)
+      delete :destroy, params: {
+        id: @comment.id,
+        :post_id => @post.id
+      }
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(Comment.find(@comment.id)).to eq @comment
+    end
   end
 end

@@ -18,8 +18,12 @@ class Api::V1::CommentsController < ApplicationController
 
   def destroy
     comment = Comment.find(params[:id])
-    comment.destroy!
-    render json: { success: {} }, status: 200
+    if comment.user == current_user
+      comment.destroy!
+      render json: { success: {} }, status: 200
+    else
+      raise NotAuthorisedException
+    end
   end
 
   private
