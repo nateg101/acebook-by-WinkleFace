@@ -44,6 +44,7 @@ GEM
     arel (8.0.0)
     ast (2.4.0)
     backports (3.15.0)
+    bcrypt (3.1.13)
     bindex (0.8.1)
     builder (3.2.3)
     byebug (11.0.1)
@@ -95,6 +96,7 @@ GEM
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
     json (2.2.0)
+    jwt (2.2.1)
     launchy (2.4.3)
       addressable (~> 2.3)
     listen (3.1.5)
@@ -252,12 +254,14 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_votable
+  bcrypt (~> 3.1.7)
   byebug
   capybara (~> 2.13)
   dotenv-rails
   factory_bot_rails
   font-awesome-rails
   jbuilder (~> 2.5)
+  jwt
   listen (>= 3.0.5, < 3.2)
   pg
   puma (~> 3.7)
