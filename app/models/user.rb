@@ -5,5 +5,5 @@ class User < ApplicationRecord
   acts_as_voter
 
   validates :email, presence: true, uniqueness: true
-  validates :password, presence: true, length { in: 6..20 }
+  validates :password, presence: true, length: { in: 6..20 }
 end
