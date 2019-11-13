@@ -13,9 +13,13 @@ class Api::V1::PostsController < ApplicationController
 
   def update
     post = Post.find_by(update_post_params[:id])
-    post.message = update_post_params[:message]
-    post.save!
-    render json: { success: {} }, status: 200
+    if current_user === post.user
+      post.message = update_post_params[:message]
+      post.save!
+      render json: { success: {} }, status: 200
+    else
+      raise NotAuthorisedException
+    end
   end
 
   def destroy

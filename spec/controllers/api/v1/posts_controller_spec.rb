@@ -56,11 +56,6 @@ RSpec.describe Api::V1::PostsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    it 'responds unauthorized' do
-      patch :update, params: { id: @post.id }
-      expect(response).to have_http_status(:unauthorized)
-    end
-
     it 'responds 200' do
       request.headers.merge!(@my_headers)
       patch :update, params: {
@@ -83,6 +78,24 @@ RSpec.describe Api::V1::PostsController, type: :controller do
       }
 
       expect(Post.find(@post.id).message).to eq "A Post"
+    end
+
+    it 'responds unauthorized when user isnt post owner' do
+      user = FactoryBot.create(:user)
+      key = AuthenticateUserCommand.call('person@person.com', 'password').result
+      headers = { 
+        "ACCEPT": "application/json",
+        "Authorisation": key
+      }
+      request.headers.merge!(headers)
+      patch :update, params: {
+        post: {
+          message: 'A Post'
+        },
+        id: @post.id 
+      }
+      expect(response).to have_http_status(:unauthorized)
+      expect(Post.find(@post.id).message).to eq 'hello'
     end
   end
 
