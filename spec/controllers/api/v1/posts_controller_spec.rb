@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe Api::V1::PostsController, type: :controller do
   before :each do
     @user = User.create(username: 'username', email: 'test@rspec.com', password: 'password')
-    @key = AuthenticateUserCommand.call('test@rspec.com', 'password').result
+    key = AuthenticateUserCommand.call(@user.email, @user.password).result
     @my_headers = { 
       "ACCEPT": "application/json",
-      "Authorisation": @key
+      "Authorisation": key
     }
     @post = Post.create(message: 'hello', user_id: @user.id, wall_id: @user.id)
   end
@@ -87,11 +87,6 @@ RSpec.describe Api::V1::PostsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    it 'responds unauthorized' do
-      delete :destroy, params: { id: @post.id }
-      expect(response).to have_http_status(:unauthorized)
-    end
-
     it 'responds 200' do
       request.headers.merge!(@my_headers)
       delete :destroy, params: {
@@ -108,6 +103,19 @@ RSpec.describe Api::V1::PostsController, type: :controller do
       }
 
       expect(Post.find_by(message: 'hello')).to be nil
+    end
+
+    it 'responds unauthorized when user isnt post owner' do
+      user = FactoryBot.create(:user)
+      key = AuthenticateUserCommand.call('person@person.com', 'password').result
+      headers = { 
+        "ACCEPT": "application/json",
+        "Authorisation": key
+      }
+      request.headers.merge!(headers)
+      delete :destroy, params: {id: @post.id }
+      expect(response).to have_http_status(:unauthorized)
+      expect(Post.find(@post.id)).to eq @post
     end
   end
 end
