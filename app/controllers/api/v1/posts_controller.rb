@@ -19,6 +19,7 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def destroy
+    Post.find(params[:id]).destroy!
     render json: { success: {} }, status: 200
   end
 

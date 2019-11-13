@@ -100,5 +100,14 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
       expect(response).to have_http_status(200)
     end
+
+    it 'destroys a post' do
+      request.headers.merge!(@my_headers)
+      delete :destroy, params: {
+        id: @post.id
+      }
+
+      expect(Post.find_by(message: 'hello')).to be nil
+    end
   end
 end
