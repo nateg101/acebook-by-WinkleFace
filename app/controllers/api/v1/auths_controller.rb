@@ -2,7 +2,6 @@ class Api::V1::AuthsController < ApplicationController
   skip_before_action :authenticate_user!
 
   def create
-    puts params
     token_command = AuthenticateUserCommand.call(*auth_params.values)
     ## create an instance of AuthenticateUserCommand 
     ## and pulls out result from attr_accessor

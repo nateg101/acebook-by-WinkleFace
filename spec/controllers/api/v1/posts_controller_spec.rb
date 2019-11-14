@@ -27,6 +27,16 @@ RSpec.describe Api::V1::PostsController, type: :controller do
       expect(response.body).to include('Hello world')
       expect(response.body).to include('A comment')
     end
+
+    it 'can return all posts on a single wall' do
+      user = FactoryBot.create(:user)
+      post = Post.create(message: "Hello world", user_id: user.id, wall_id: user.id)
+      get :index, params: {
+        wall_id: user.id
+      }
+      expect(response.body).to include('Hello world')
+      expect(response.body).to_not include('hello')
+    end
   end
 
   describe 'POST #create' do
