@@ -9,6 +9,6 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { in: 6..20 }
 
   def owns?(object)
-    true
+    self == object.user
   end
 end
