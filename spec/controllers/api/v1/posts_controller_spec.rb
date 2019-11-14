@@ -18,9 +18,9 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
 
     it 'returns all posts in json format' do
-      user = FactoryBot.create(:user)
-      post = Post.create(message: "Hello world", user_id: user.id)
-      comment = Comment.create(message: 'A comment', user_id: user.id, post_id: post.id)
+      FactoryBot.create(:user)
+      Post.create(message: "Hello world", user_id: user.id)
+      Comment.create(message: 'A comment', user_id: user.id, post_id: post.id)
       post.liked_by user
       comment.liked_by user
       get :index
@@ -29,8 +29,8 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
 
     it 'can return all posts on a single wall' do
-      user = FactoryBot.create(:user)
-      post = Post.create(message: "Hello world", user_id: user.id, wall_id: user.id)
+      FactoryBot.create(:user)
+      Post.create(message: "Hello world", user_id: user.id, wall_id: user.id)
       get :index, params: {
         wall_id: user.id
       }
@@ -84,7 +84,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
     it 'updates a post' do
       request.headers.merge!(@my_headers)
-      patch :update , params: {
+      patch :update, params: {
         post: {
           message: 'A Post',
         },
@@ -96,7 +96,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
     it 'responds unauthorized when user isnt post owner' do
       user = FactoryBot.create(:user)
-      key = AuthenticateUserCommand.call('person@person.com', 'password').result
+      key = AuthenticateUserCommand.call(user.email, 'password').result
       headers = { 
         "ACCEPT": "application/json",
         "Authorisation": key
@@ -134,13 +134,13 @@ RSpec.describe Api::V1::PostsController, type: :controller do
 
     it 'responds unauthorized when user isnt post owner' do
       user = FactoryBot.create(:user)
-      key = AuthenticateUserCommand.call('person@person.com', 'password').result
+      key = AuthenticateUserCommand.call(user.email, 'password').result
       headers = { 
         "ACCEPT": "application/json",
         "Authorisation": key
       }
       request.headers.merge!(headers)
-      delete :destroy, params: {id: @post.id }
+      delete :destroy, params: { id: @post.id }
       expect(response).to have_http_status(:unauthorized)
       expect(Post.find(@post.id)).to eq @post
     end

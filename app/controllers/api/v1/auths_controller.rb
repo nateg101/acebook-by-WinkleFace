@@ -6,9 +6,9 @@ class Api::V1::AuthsController < ApplicationController
     ## create an instance of AuthenticateUserCommand 
     ## and pulls out result from attr_accessor
     if token_command.success?
-      render json: { success: {token: token_command.result } } 
+      render json: { success: { token: token_command.result } } 
     else
-      render json: { failure: {message: token_command.errors } }, status: :unauthorized
+      render json: { failure: { message: token_command.errors } }, status: :unauthorized
     end
   end
 

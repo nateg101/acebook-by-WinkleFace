@@ -10,6 +10,7 @@ class DecodeAuthenticationCommand < BaseCommand
 
   def payload
     return unless token_present?
+
     @result = user if user
   end
 
@@ -24,6 +25,7 @@ class DecodeAuthenticationCommand < BaseCommand
 
   def token
     return authorization_header.split(' ').last if authorization_header.present?
+
     errors << { token: 'Missing Token' }
     nil
   end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::UsersController, type: :controller do
   before :each do
-    post :create, params: { :user => {username: 'username', email: 'test@email.com', password: 'password'} }
+    post :create, params: { :user => { username: 'username', email: 'test@email.com', password: 'password' } }
   end
 
   describe 'POST /users' do
@@ -11,7 +11,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     it 'responds with failure' do
-      post :create, params: { :user => {email: 'test@email.com', password: 'password'} }
+      post :create, params: { :user => { email: 'test@email.com', password: 'password' } }
       result = JSON.parse(response.body)
       failure_message = result['failure']['message']
       expect(failure_message).to eq("Validation failed: Email has already been taken, Username can't be blank")

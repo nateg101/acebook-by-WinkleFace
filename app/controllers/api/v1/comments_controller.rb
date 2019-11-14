@@ -7,23 +7,19 @@ class Api::V1::CommentsController < ApplicationController
 
   def update
     comment = Comment.find(params[:id])
-    if current_user.owns?(comment)
-      comment.message = comment_params[:message]
-      comment.save!
-      render json: { success: {} }, status: 200
-    else
-      raise NotAuthorisedException
-    end
+    raise NotAuthorisedException unless current_user.owns?(comment)
+
+    comment.message = comment_params[:message]
+    comment.save!
+    render json: { success: {} }, status: 200
   end
 
   def destroy
     comment = Comment.find(params[:id])
-    if current_user.owns?(comment)
-      comment.destroy!
-      render json: { success: {} }, status: 200
-    else
-      raise NotAuthorisedException
-    end
+    raise NotAuthorisedException unless current_user.owns?(comment)
+
+    comment.destroy!
+    render json: { success: {} }, status: 200
   end
 
   private

@@ -8,7 +8,12 @@ class Api::V1::PostsController < ApplicationController
     render json: posts, :include => { 
       :user => { :only => [:id, :username] },
       :get_likes => { :only => [:id] },
-      :comments => { :only => [:message, :id, :user_id, :created_at, :updated_at], :include => { :user => { :only => [:id, :username] }, :get_likes => { :only => [:id] } } }
+      :comments => {
+         :only => [:message, :id, :user_id, :created_at, :updated_at],
+        :include => { :user => { :only => [:id, :username] },
+                      :get_likes => { :only => [:id] }
+          } 
+      }
     }
   end
 
@@ -19,23 +24,19 @@ class Api::V1::PostsController < ApplicationController
 
   def update
     post = Post.find_by(update_post_params[:id])
-    if current_user.owns?(post)
-      post.message = update_post_params[:message]
-      post.save!
-      render json: { success: {} }, status: 200
-    else
-      raise NotAuthorisedException
-    end
+    raise NotAuthorisedException unless current_user.owns?(post)
+
+    post.message = update_post_params[:message]
+    post.save!
+    render json: { success: {} }, status: 200
   end
 
   def destroy
     post = Post.find(params[:id])
-    if current_user.owns?(post)
-      post.destroy!
-      render json: { success: {} }, status: 200
-    else
-      raise NotAuthorisedException
-    end
+    raise NotAuthorisedException unless current_user.owns?(post)
+
+    post.destroy!
+    render json: { success: {} }, status: 200
   end
 
   private
