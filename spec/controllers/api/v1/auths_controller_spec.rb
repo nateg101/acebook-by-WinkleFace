@@ -2,12 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::AuthsController, type: :controller do
   describe 'POST /auth' do
-    it 'returns an authentication token' do
+    it 'returns an authentication token and username' do
       User.create(username: 'username', email: 'test@user.com', password: 'password')
       post :create, params: { auth: { email: 'test@user.com', password: 'password' } }
       result = JSON.parse(response.body)
-      token = result['success']['token']
-      expect(token.length).to be > 0
+      success = result['success']
+      expect(success['token'].length).to be > 0
+      expect(success['username']).to eq 'username'
     end
 
     it 'returns an invalid credential error' do

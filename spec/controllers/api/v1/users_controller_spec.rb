@@ -19,9 +19,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     it 'responds with success and username' do
-      result = JSON.parse(response.body)
-      success = result['success']
-      expect(success['username']).to eq 'username'
+      expect(response.body).to include 'success'
     end
 
     it 'creates a user' do
