@@ -3,7 +3,13 @@ class Api::V1::PostsController < ApplicationController
   skip_before_action :authenticate_user!, :only => [:index]
 
   def index
-    render json: Post.all
+    # render json: Post.all
+    posts = Post.all
+    render json: posts, :include => { 
+      :user => { :only => [:id, :username] },
+      :get_likes => { :only => [:id] },
+      :comments => { :only => [:message, :id, :user_id, :created_at, :updated_at], :include => { :user => { :only => [:id, :username] }, :get_likes => { :only => [:id] } } }
+    }
   end
 
   def create

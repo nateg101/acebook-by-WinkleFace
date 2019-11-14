@@ -11,7 +11,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     @post = Post.create(message: 'hello', user_id: @user.id, wall_id: @user.id)
   end
 
-  describe 'GET #show' do
+  describe 'GET #index' do
     it 'returns 200' do
       get :index
       expect(response).to have_http_status(200)
@@ -20,8 +20,12 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     it 'returns all posts in json format' do
       user = FactoryBot.create(:user)
       post = Post.create(message: "Hello world", user_id: user.id)
+      comment = Comment.create(message: 'A comment', user_id: user.id, post_id: post.id)
+      post.liked_by user
+      comment.liked_by user
       get :index
-      expect(response.body).to eq(Post.all.to_json)
+      expect(response.body).to include('Hello world')
+      expect(response.body).to include('A comment')
     end
   end
 
