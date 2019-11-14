@@ -3,8 +3,8 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     begin
-      User.create!(user_params)
-      render json: { success: {} }
+      user = User.create!(user_params)
+      render json: { success: {username: user.username} }
     rescue StandardError => e
       render json: { failure: { message: e.message } }, status: 409
     end

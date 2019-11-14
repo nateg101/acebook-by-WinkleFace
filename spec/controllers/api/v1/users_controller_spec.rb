@@ -18,6 +18,12 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       expect(response).to have_http_status(409)
     end
 
+    it 'responds with success and username' do
+      result = JSON.parse(response.body)
+      success = result['success']
+      expect(success['username']).to eq 'username'
+    end
+
     it 'creates a user' do
       expect(User.find_by(email: 'test@email.com')).to be_a User
     end
