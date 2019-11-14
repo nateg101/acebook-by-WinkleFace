@@ -18,9 +18,9 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
 
     it 'returns all posts in json format' do
-      FactoryBot.create(:user)
-      Post.create(message: "Hello world", user_id: user.id)
-      Comment.create(message: 'A comment', user_id: user.id, post_id: post.id)
+      user = FactoryBot.create(:user)
+      post = Post.create(message: "Hello world", user_id: user.id)
+      comment = Comment.create(message: 'A comment', user_id: user.id, post_id: post.id)
       post.liked_by user
       comment.liked_by user
       get :index
@@ -29,7 +29,7 @@ RSpec.describe Api::V1::PostsController, type: :controller do
     end
 
     it 'can return all posts on a single wall' do
-      FactoryBot.create(:user)
+      user = FactoryBot.create(:user)
       Post.create(message: "Hello world", user_id: user.id, wall_id: user.id)
       get :index, params: {
         wall_id: user.id
