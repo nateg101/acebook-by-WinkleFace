@@ -42,7 +42,9 @@ DEPLOYMENT
 - Connect app to github repo under Deploy settings
 - Enable Automatic deploys and 'Wait for CI to pass before deploy'
 
+NOTE
 
+- The branch 'api-routes' in this repository is the backend to the development of our acebook app. The frontend is built in React and is located [here] (https://github.com/robertamangiapane/acebook-react).
 
 
 REQUIRED INSTRUCTIONS:
