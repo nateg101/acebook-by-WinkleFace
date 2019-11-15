@@ -2,17 +2,17 @@ class Api::V1::PostsController < ApplicationController
   skip_before_action :authenticate_user!, :only => [:index]
 
   def index
-    posts = Post.all unless params[:wall_id]
-    posts = Post.where(wall_id: params[:wall_id]) if params[:wall_id]
+    posts = Post.all.reverse unless params[:wall_id]
+    posts = Post.where(wall_id: params[:wall_id]).reverse if params[:wall_id]
 
-    render json: posts, :include => { 
+    render json: posts, :include => {
       :user => { :only => [:id, :username] },
       :get_likes => { :only => [:id] },
       :comments => {
          :only => [:message, :id, :user_id, :created_at, :updated_at],
         :include => { :user => { :only => [:id, :username] },
                       :get_likes => { :only => [:id] }
-          } 
+          }
       }
     }
   end
