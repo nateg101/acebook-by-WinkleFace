@@ -44,7 +44,7 @@ DEPLOYMENT
 
 NOTE
 
-- The branch 'api-routes' in this repository is the backend to the development of our acebook app. The frontend is built in React and is located [here] (https://github.com/robertamangiapane/acebook-react).
+- The branch 'api-routes' in this repository is the backend to the development of our acebook app. The frontend is built in React and is located [here](https://github.com/robertamangiapane/acebook-react).
 
 
 REQUIRED INSTRUCTIONS:
