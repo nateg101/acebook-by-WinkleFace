@@ -1,4 +1,4 @@
-# AceBook - By WinkleFace
+# AceBook - By WinkyFace
 
 DESCRIPTION:
 AceBook is a social media platform that allows users to sign up and have a wall where they can post messages, interact with other friend's walls, as well as add comments and likes to friends posts.
