@@ -14,6 +14,6 @@ RSpec.feature "Sign Up With Github" do
   scenario 'user signs up with their Github credentials' do
     visit '/'
     click_link 'Sign in with GitHub'
-    expect(page).to have_content "Logged in as #{ENV['GMAIL_USERNAME']}"
+    expect(page).to have_content "Logged in as #{ENV['USERNAME']}"
   end
 end
