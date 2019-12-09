@@ -1,14 +1,18 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => { :omniauth_callbacks => "callbacks" }
+  namespace :api do
+    namespace :v1 do
+      resource :auths, only: [:create]
+      resources :posts do
+        resources :comments
+      end
+      resource :users, only: [:create]
+    end
+  end
 
   root 'home#index'
   get '/user_not_found', to: 'errors#user_not_found', as: 'user_not_found'
   # devise_for :users
 
-  devise_scope :user do
-    get '/:id' => 'posts#index', as: 'user'
-
-  end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :posts do
     # resources :likes
